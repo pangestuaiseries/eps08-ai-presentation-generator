@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Presentation Architect — Live Slide Generator Simulator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="bg-[#0B0F17] text-slate-100 min-h-screen flex flex-col">
+  <!-- Top Navigation -->
+  <header class="border-b border-slate-800 bg-[#0F172A]/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">
+          📊
+        </div>
+        <div>
+          <h1 class="text-base font-extrabold text-white flex items-center gap-2">
+            AI Presentation Architect
+            <span class="text-xs bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 px-2 py-0.5 rounded-full font-mono font-normal">EPS 08</span>
+          </h1>
+          <p class="text-xs text-slate-400">By Pangestu Rahmat N (@pangesturahmatn)</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/pangestuaiseries/eps08-ai-presentation-generator" target="_blank" class="text-xs font-mono bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition">
+          ⭐ GitHub Repo
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Left Column: Input Outline & Settings -->
+    <div class="lg:col-span-5 flex flex-col gap-6">
+      <div class="bg-[#131B2E] border border-slate-800 rounded-2xl p-6 shadow-xl">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-sm font-bold text-indigo-400 uppercase tracking-wider font-mono">1. Ide Kasar / Outline Topik</h2>
+          <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-mono">Pyramid Framework</span>
+        </div>
+
+        <!-- Preset Buttons -->
+        <div class="flex flex-wrap gap-2 mb-4">
+          <button onclick="setTopic('pitchdeck')" class="text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg transition">🚀 Pitch Deck Startup</button>
+          <button onclick="setTopic('q3report')" class="text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg transition">📈 Evaluasi Proyek Bulanan</button>
+          <button onclick="setTopic('skripsi')" class="text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg transition">🎓 Sidang Tugas Akhir</button>
+        </div>
+
+        <textarea id="topicInput" rows="5" class="w-full bg-[#0A0E17] border border-slate-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition font-sans" placeholder="Tuliskan topik, poin-poin masalah, dan solusi kasar yang ingin kamu presentasikan..."></textarea>
+
+        <!-- Theme Selection -->
+        <div class="mt-4">
+          <label class="text-xs font-mono text-slate-400 mb-2 block">Pilihan Tema Visual:</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button onclick="setTheme('mckinsey')" id="theme-mckinsey" class="text-xs py-2 px-3 rounded-lg border border-indigo-500 bg-indigo-500/10 text-indigo-300 font-semibold transition text-center">McKinsey Navy</button>
+            <button onclick="setTheme('cyber')" id="theme-cyber" class="text-xs py-2 px-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-400 font-semibold transition text-center">Cyber Dark</button>
+            <button onclick="setTheme('clean')" id="theme-clean" class="text-xs py-2 px-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-400 font-semibold transition text-center">Emerald Minimal</button>
+          </div>
+        </div>
+
+        <button onclick="generateSlides()" class="mt-6 w-full py-3 bg-gradient-to-r from-indigo-500 via-cyan-500 to-emerald-500 hover:opacity-95 text-slate-950 font-black rounded-xl shadow-lg shadow-cyan-500/20 transition flex items-center justify-center gap-2">
+          <span>⚡ Generate 4 Slide Konsultan</span>
+        </button>
+      </div>
+
+      <!-- Action Panel: VBA Script Output -->
+      <div class="bg-[#131B2E] border border-slate-800 rounded-2xl p-6 shadow-xl">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono">2. Script VBA PowerPoint (Otomatis)</h3>
+          <button onclick="copyVBA()" class="text-xs bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white px-2.5 py-1 rounded font-mono transition">
+            📋 Salin Kode VBA
+          </button>
+        </div>
+        <p class="text-xs text-slate-400 mb-3">Tekan <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-slate-300 font-mono">Alt + F11</kbd> di PowerPoint, tempel kode ini, lalu tekan <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-slate-300 font-mono">F5</kbd>.</p>
+        <pre id="vbaOutput" class="bg-[#0A0E17] border border-slate-800 p-3 rounded-xl text-[11px] font-mono text-cyan-300 overflow-x-auto max-h-48"></pre>
+      </div>
+    </div>
+
+    <!-- Right Column: Interactive Slide Deck Preview -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      <div class="flex justify-between items-center">
+        <h2 class="text-sm font-bold text-slate-300 font-mono flex items-center gap-2">
+          <span>🖥️ Live Slide Deck Preview</span>
+          <span id="slideCounter" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">Slide 1 dari 4</span>
+        </h2>
+        <div class="flex items-center gap-2">
+          <button onclick="prevSlide()" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition text-sm">◀</button>
+          <button onclick="nextSlide()" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition text-sm">▶</button>
+        </div>
+      </div>
+
+      <!-- Slide Canvas (Aspect 16:9) -->
+      <div id="slideCanvas" class="aspect-[16/9] w-full rounded-2xl p-8 flex flex-col justify-between shadow-2xl transition-all duration-300 relative overflow-hidden border border-slate-700/50 bg-[#0F172A]">
+        <!-- Slide Content Injected by JS -->
+      </div>
+
+      <!-- Slide Thumbnails Strip -->
+      <div class="grid grid-cols-4 gap-3 mt-2">
+        <button onclick="selectSlide(0)" class="thumb-btn aspect-[16/9] rounded-lg border-2 border-indigo-500 bg-slate-900 p-2 text-left flex flex-col justify-between overflow-hidden shadow">
+          <span class="text-[10px] font-mono text-slate-400">#1 Cover</span>
+          <span class="text-[11px] font-bold text-slate-200 truncate">Transformasi Otomasi</span>
+        </button>
+        <button onclick="selectSlide(1)" class="thumb-btn aspect-[16/9] rounded-lg border border-slate-800 bg-slate-900 p-2 text-left flex flex-col justify-between overflow-hidden shadow">
+          <span class="text-[10px] font-mono text-slate-400">#2 Problem</span>
+          <span class="text-[11px] font-bold text-slate-200 truncate">Bottleneck Manual</span>
+        </button>
+        <button onclick="selectSlide(2)" class="thumb-btn aspect-[16/9] rounded-lg border border-slate-800 bg-slate-900 p-2 text-left flex flex-col justify-between overflow-hidden shadow">
+          <span class="text-[10px] font-mono text-slate-400">#3 Solusi</span>
+          <span class="text-[11px] font-bold text-slate-200 truncate">Arsitektur AI Pipeline</span>
+        </button>
+        <button onclick="selectSlide(3)" class="thumb-btn aspect-[16/9] rounded-lg border border-slate-800 bg-slate-900 p-2 text-left flex flex-col justify-between overflow-hidden shadow">
+          <span class="text-[10px] font-mono text-slate-400">#4 Impact</span>
+          <span class="text-[11px] font-bold text-slate-200 truncate">ROI & Efisiensi 10x</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let currentSlideIdx = 0;
+    let activeTheme = 'mckinsey';
+
+    const slidesData = [
+      {
+        tag: 'EXECUTIVE PROPOSAL • 2026',
+        title: 'TRANSFORMASI OTOMASI AI & WEBHOOK',
+        subtitle: 'Meningkatkan Kecepatan Respon Operasional hingga 10x Lipat Tanpa Menambah Beban Tim',
+        footer: 'Disiapkan oleh: Senior Automation Architect • Rahasia Efisiensi Bisnis',
+        isCover: true
+      },
+      {
+        tag: 'PROBLEM STATEMENT',
+        title: 'Bottleneck Proses Manual Menguras 40% Jam Produktif',
+        points: [
+          { title: 'Response Time Kritis', desc: 'Rata-rata prospek menunggu 2 jam untuk rekap informasi dasar, menyebabkan 30% drop-off.' },
+          { title: 'Human Error di Rekapitulasi', desc: 'Data transaksi dipindahkan manual antar chat dan spreadsheet sehingga rawan selisih.' },
+          { title: 'Biaya Lembur Tak Terkontrol', desc: 'Staf operasional kelelahan mengerjakan pekerjaan repetitif di luar jam kerja normal.' }
+        ]
+      },
+      {
+        tag: 'STRATEGIC SOLUTION',
+        title: 'Arsitektur Event-Driven AI Automation 24/7',
+        points: [
+          { title: 'Webhook Capture 50ms', desc: 'Menangkap data leads dan permintaan tiket dari WhatsApp secara instan.' },
+          { title: 'LLM Parser Engine', desc: 'Ekstraksi otomatis niat pelanggan, kategori masalah, dan prioritas penanganan.' },
+          { title: 'Auto-Sync Multi-Platform', desc: 'Terhubung otomatis ke Google Calendar, CRM, dan dashboard monitoring pusat.' }
+        ]
+      },
+      {
+        tag: 'BUSINESS IMPACT & ROI',
+        title: 'Proyeksi Penghematan Rp 180 Juta / Tahun',
+        points: [
+          { title: 'Efisiensi Waktu 120 Jam/Bln', desc: 'Tim fokus ke closing penjualan bernilai tinggi daripada pekerjaan admin.' },
+          { title: 'Kecepatan Konversi +35%', desc: 'Pelanggan langsung terlayani dalam 2 detik pertama saat minat membeli sedang tinggi.' },
+          { title: 'Skalabilitas Tanpa Batas', desc: 'Mampu menangani lonjakan 10.000 transaksi harian dengan stabilitas sistem 99.9%.' }
+        ]
+      }
+    ];
+
+    function renderSlide() {
+      const slide = slidesData[currentSlideIdx];
+      const canvas = document.getElementById('slideCanvas');
+      document.getElementById('slideCounter').innerText = `Slide ${currentSlideIdx + 1} dari ${slidesData.length}`;
+
+      // Update thumbnails
+      const thumbs = document.querySelectorAll('.thumb-btn');
+      thumbs.forEach((btn, idx) => {
+        if (idx === currentSlideIdx) {
+          btn.classList.add('border-indigo-500', 'border-2');
+          btn.classList.remove('border-slate-800');
+        } else {
+          btn.classList.remove('border-indigo-500', 'border-2');
+          btn.classList.add('border-slate-800');
+        }
+      });
+
+      if (slide.isCover) {
+        canvas.innerHTML = `
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-mono font-bold tracking-widest text-indigo-400 bg-indigo-500/10 border border-indigo-500/30 px-3 py-1 rounded-full">${slide.tag}</span>
+            <span class="text-xs font-mono text-slate-500">CONFIDENTIAL</span>
+          </div>
+          <div class="my-auto">
+            <h2 class="text-3xl md:text-4xl font-black text-white leading-tight mb-4 tracking-tight">${slide.title}</h2>
+            <p class="text-base text-slate-300 font-medium max-w-2xl leading-relaxed">${slide.subtitle}</p>
+          </div>
+          <div class="flex justify-between items-center pt-4 border-t border-slate-800/80 text-xs font-mono text-slate-400">
+            <span>${slide.footer}</span>
+            <span>SLIDE 01</span>
+          </div>
+        `;
+      } else {
+        canvas.innerHTML = `
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-xs font-mono font-bold tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded">${slide.tag}</span>
+            </div>
+            <h2 class="text-2xl font-black text-white leading-snug tracking-tight">${slide.title}</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
+            ${slide.points.map((p, i) => `
+              <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
+                <div>
+                  <div class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-300 font-mono text-xs font-bold flex items-center justify-center mb-3">0${i+1}</div>
+                  <h3 class="text-sm font-bold text-white mb-2">${p.title}</h3>
+                  <p class="text-xs text-slate-400 leading-relaxed">${p.desc}</p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="flex justify-between items-center pt-3 border-t border-slate-800/80 text-xs font-mono text-slate-500">
+            <span>Pangestu AI Presentation Architect Framework</span>
+            <span>0${currentSlideIdx + 1} / 04</span>
+          </div>
+        `;
+      }
+    }
+
+    function nextSlide() {
+      currentSlideIdx = (currentSlideIdx + 1) % slidesData.length;
+      renderSlide();
+    }
+
+    function prevSlide() {
+      currentSlideIdx = (currentSlideIdx - 1 + slidesData.length) % slidesData.length;
+      renderSlide();
+    }
+
+    function selectSlide(idx) {
+      currentSlideIdx = idx;
+      renderSlide();
+    }
+
+    function setTheme(t) {
+      activeTheme = t;
+      const canvas = document.getElementById('slideCanvas');
+      ['theme-mckinsey', 'theme-cyber', 'theme-clean'].forEach(id => {
+        document.getElementById(id).className = "text-xs py-2 px-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-400 font-semibold transition text-center";
+      });
+      document.getElementById('theme-' + t).className = "text-xs py-2 px-3 rounded-lg border border-indigo-500 bg-indigo-500/10 text-indigo-300 font-semibold transition text-center";
+
+      if (t === 'mckinsey') {
+        canvas.style.backgroundColor = '#0F172A';
+      } else if (t === 'cyber') {
+        canvas.style.backgroundColor = '#05070E';
+      } else {
+        canvas.style.backgroundColor = '#062016';
+      }
+    }
+
+    function setTopic(type) {
+      const input = document.getElementById('topicInput');
+      if (type === 'pitchdeck') {
+        input.value = "Pitch deck aplikasi AI Otomasi Webhook untuk UKM. Masalah: respon lambat bikin pelanggan kabur. Solusi: bot event-driven 24/7. Target pasar: 50.000 toko online.";
+      } else if (type === 'q3report') {
+        input.value = "Laporan evaluasi proyek Q3: Tim menyelesaikan 12 fitur baru, kecepatan deploys naik 40%, namun ada kendala di testing integrasi yang masih manual.";
+      } else {
+        input.value = "Presentasi seminar tugas akhir: Penerapan algoritma RAG dan vector embeddings untuk pencarian dokumen SOP perusahaan secara instan.";
+      }
+      generateSlides();
+    }
+
+    function generateSlides() {
+      const val = document.getElementById('topicInput').value.trim();
+      if (val) {
+        slidesData[0].title = "STRATEGI: " + val.slice(0, 45).toUpperCase();
+        slidesData[0].subtitle = val;
+      }
+      renderSlide();
+      updateVBA();
+    }
+
+    function updateVBA() {
+      document.getElementById('vbaOutput').innerText = `Sub GenerateAutoSlides()
+    Dim pptPres As Presentation: Set pptPres = ActivePresentation
+    Dim sld As Slide: Set sld = pptPres.Slides.Add(1, ppLayoutCustom)
+    sld.Background.Fill.ForeColor.RGB = RGB(15, 23, 42)
+    
+    Dim tb As Shape
+    Set tb = sld.Shapes.AddTextbox(msoTextOrientationHorizontal, 100, 180, 800, 200)
+    tb.TextFrame.TextRange.Text = "${slidesData[0].title}"
+    tb.TextFrame.TextRange.Font.Size = 36
+    tb.TextFrame.TextRange.Font.Color.RGB = RGB(255, 255, 255)
+    
+    ' Slide 2: Problem
+    Set sld = pptPres.Slides.Add(2, ppLayoutCustom)
+    Set tb = sld.Shapes.AddTextbox(msoTextOrientationHorizontal, 80, 60, 850, 60)
+    tb.TextFrame.TextRange.Text = "${slidesData[1].title}"
+    tb.TextFrame.TextRange.Font.Size = 28
+    
+    MsgBox "4 Slide Konsultan Berhasil Dibuat!", vbInformation
+End Sub`;
+    }
+
+    function copyVBA() {
+      const text = document.getElementById('vbaOutput').innerText;
+      navigator.clipboard.writeText(text);
+      alert('Kode VBA berhasil disalin! Silakan buka PowerPoint, tekan Alt + F11, tempel kodenya, dan tekan F5.');
+    }
+
+    // Init
+    setTopic('pitchdeck');
+  </script>
+</body>
+</html>
