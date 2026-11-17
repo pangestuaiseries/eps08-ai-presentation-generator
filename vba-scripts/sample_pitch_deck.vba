@@ -100,3 +100,4 @@ Sub GenerateConsultingDeck()
 
     MsgBox "Sukses! 4 Slide Presentasi Konsultan Berhasil Dibuat Otomatis!", vbInformation, "Pangestu AI Presentation Architect"
 End Sub
+

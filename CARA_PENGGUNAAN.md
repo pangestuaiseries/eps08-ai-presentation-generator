@@ -35,3 +35,4 @@ Setelah slide terbuat via script VBA:
 1. Klik tab **Design** di PowerPoint.
 2. Klik tombol **Designer** di pojok kanan atas (*PowerPoint Designer AI*).
 3. PowerPoint akan secara otomatis menyarankan layout visual kelas atas yang menyesuaikan isi teks Anda!
+

@@ -39,3 +39,4 @@ Berikut adalah topik & ide kasar materi presentasi saya:
 5. **Slide 5**: Perbandingan Sebelum vs Sesudah (Timeline 4 Jam ➡️ 10 Detik).
 6. **Slide 6**: Rencana Implementasi & ROI Proyek.
 7. **Kode VBA Lengkap**: Sekali klik langsung jadi slide PowerPoint nyata!
+
